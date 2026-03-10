@@ -13,7 +13,17 @@ public static class Arrays
         // step by step before you write the code. The plan should be clear enough that it could
         // be implemented by another person.
 
-        return []; // replace this return statement with your own
+        // Step 1: Create an array of doubles with the specified length to hold the multiples.
+        // Step 2: Use a loop to calculate each multiple of the number and store it in the array.
+        // Step 3: Return the array of multiples.
+
+        var multiples = new double[length]; // Step 1
+        for (int i = 0; i < length; i++)
+        {
+            int next_multiple = ((int)number) * (i + 1); // Compute the value of the next multiple. For example, if number is 7 and i is 3, then next_multiple will be 21.
+            multiples[i] = next_multiple; // Step 2
+        }
+        return multiples; // replace this return statement with your own
     }
 
     /// <summary>

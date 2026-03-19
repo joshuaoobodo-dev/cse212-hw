@@ -1,30 +1,74 @@
-﻿/// <summary>
+﻿using System.Diagnostics;
+using System.Runtime.CompilerServices;
+
+/// <summary>
 /// Maintain a Customer Service Queue.  Allows new customers to be 
 /// added and allows customers to be serviced.
 /// </summary>
 public class CustomerService {
     public static void Run() {
         // Example code to see what's in the customer service queue:
-        // var cs = new CustomerService(10);
-        // Console.WriteLine(cs);
+        var cs = new CustomerService(10);
+        Console.WriteLine(cs);
 
         // Test Cases
 
         // Test 1
-        // Scenario: 
-        // Expected Result: 
+        // Scenario: Four customers are added to the queue and then three customers are served.
+        // Expected Result: One last customer should be left in the queue with the correct information.
         Console.WriteLine("Test 1");
 
+        var customer1 = new CustomerService.Customer("Alice", "A123", "Problem 1");
+        var customer2 = new CustomerService.Customer("Bob", "B456", "Problem 2");
+
+        Trace.Assert(customer1.ToString() == "Alice (A123)  : Problem 1", "Customer 1 ToString() failed");
+        Trace.Assert(customer2.ToString() == "Bob (B456)  : Problem 2", "Customer 2 ToString() failed");
+
+        cs.AddNewCustomer();
+        cs.AddNewCustomer();
+        cs.AddNewCustomer();
+        cs.AddNewCustomer();
+
+        Trace.Assert(cs.ToString() == "[size=4 max_size=10 => Alice (A123)  : Problem 1, Bob (B456)  : Problem 2, Craig (C789)  : Problem 3, Dan (D123)  : Problem 4]", "CustomerService ToString() failed after adding customers");
+
+        cs.ServeCustomer();
+        cs.ServeCustomer();
+        cs.ServeCustomer();
+
+        Trace.Assert(cs.ToString() == "[size=1 max_size=10 => Dan (D123)  : Problem 4]", "CustomerService ToString() failed after serving customers");
+
         // Defect(s) Found: 
+
+        // No defects found!
 
         Console.WriteLine("=================");
 
         // Test 2
-        // Scenario: 
-        // Expected Result: 
+        // Scenario: Five new customers are added to the queue, but the maximum size of the queue is set to 3.  The last two customers should not be added to the queue.
+        // Expected Result: The queue should only contain the first three customers and the last two customers should not be added to the queue.
         Console.WriteLine("Test 2");
 
+        cs = new CustomerService(3);
+        Console.WriteLine(cs);
+
+        cs.AddNewCustomer();
+        cs.AddNewCustomer();
+        cs.AddNewCustomer();
+        cs.AddNewCustomer();
+        cs.AddNewCustomer();
+
+        Trace.Assert(cs.ToString() == "[size=3 max_size=3 => Alice (A123)  : Problem 1, Bob (B456)  : Problem 2, Craig (C789)  : Problem 3]", "CustomerService ToString() failed after adding customers with max size");
+
+        cs.ServeCustomer();
+        cs.ServeCustomer();
+        cs.ServeCustomer();
+
+        Trace.Assert(cs.ToString() == "[size=0 max_size=3 => ]", "CustomerService ToString() failed after serving all customers");
+
+
         // Defect(s) Found: 
+        // Program quits with an exception when trying to add more customers than the maximum size of the queue.  The program should handle this case gracefully and not allow more customers to be added than the maximum size of the queue.
+        // Which shouldn't be so...
 
         Console.WriteLine("=================");
 

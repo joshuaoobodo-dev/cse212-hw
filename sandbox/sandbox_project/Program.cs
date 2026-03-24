@@ -8,6 +8,29 @@ public class Program
         // with any code or ideas you have that do not directly apply to
         // one of your projects.
 
-        Console.WriteLine("Hello Sandbox World!");
+        HangmanGame();
+    }
+
+    static void HangmanGame()
+    {
+        string[] words = { "apple", "banana", "cherry", "date", "elderberry" };
+
+        var chances = 5;
+        var word = words[new Random().Next(words.Length)];
+
+        while (chances > 0)
+        {
+            Console.WriteLine($"You have {chances} chances left. Guess a letter:");
+            var guess = Console.ReadLine();
+            if (word.Contains(guess))
+            {
+                Console.WriteLine("Correct!");
+            }
+            else
+            {
+                Console.WriteLine("Wrong!");
+                chances--;
+            }
+        }
     }
 }

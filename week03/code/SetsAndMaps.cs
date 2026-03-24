@@ -98,7 +98,25 @@ public static class SetsAndMaps
     public static bool IsAnagram(string word1, string word2)
     {
         // TODO Problem 3 - ADD YOUR CODE HERE
-        return false;
+        var charCount = new Dictionary<char, int>();
+        foreach (var c in word1.Replace(" ", "").ToLower())
+        {
+            if (charCount.ContainsKey(c))
+                charCount[c]++;
+            else
+                charCount[c] = 1;
+        }
+        foreach (var c in word2.Replace(" ", "").ToLower())
+        {
+            if (!charCount.ContainsKey(c))
+                return false;
+            charCount[c]--;
+            if (charCount[c] < 0)
+                return false;
+        }
+
+        var result = charCount.Values.All(count => count == 0);
+        return result;
     }
 
     /// <summary>

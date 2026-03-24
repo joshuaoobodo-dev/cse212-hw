@@ -64,6 +64,16 @@ public static class SetsAndMaps
         {
             var fields = line.Split(",");
             // TODO Problem 2 - ADD YOUR CODE HERE
+            foreach (var field in fields)
+            {
+                if (field == fields[3]) // Check if the field is the degree field
+                {
+                    if (degrees.ContainsKey(field))
+                        degrees[field]++; // Increment count if degree already exists
+                    else
+                        degrees[field] = 1; // Initialize count for new degree
+                }
+            }
         }
 
         return degrees;
